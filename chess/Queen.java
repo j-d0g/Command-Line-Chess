@@ -6,9 +6,11 @@ public class Queen extends Piece
   {
     if (p == PieceColour.WHITE){
       this.setSymbol("♕");
+      colour = PieceColour.WHITE;
     }
     else if (p == PieceColour.BLACK){
       this.setSymbol("♛");
+      colour = PieceColour.BLACK;
     }
   }
 }
