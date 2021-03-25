@@ -4,6 +4,7 @@ package chess;
 public class Piece
 {
 	private String symbol;
+	protected PieceColour colour;
 
 	public String getSymbol()
 	{
@@ -12,5 +13,8 @@ public class Piece
 	public void setSymbol(String symbolIn)
 	{
 		symbol = symbolIn;
+	}
+	public PieceColour getColour(){
+		return colour;
 	}
 }

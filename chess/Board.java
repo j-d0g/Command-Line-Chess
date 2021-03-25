@@ -79,7 +79,23 @@ public class Board{
 	//This method requires your input
 	public static boolean movePiece(int i0, int j0, int i1, int j1, Piece p)
 	{
-		return false;
+		//Purely logic for now, as I need to figure out what enum does
+
+		/*
+		if (p.getColour() == PieceColour.WHITE && p.getSymbol != "♔" && getPiece(i1, j1).getSymbol() == "♚"){
+			return true;
+		}
+		else if (p.getColour() == PieceColour.BLACK && p.getSymbol != "♚" && getPiece(i1, j1).getSymbol() == "♔"){
+			return true;
+		}
+		else if (p.getColour() == getPiece(i1, j1).getColour){ //prevents capturing your own piece, but ideally implemented in play() if possible
+			return false;
+		}
+		*/
+		board[i0][j0].removePiece();
+		board[i1][j1].removePiece();
+		Board.setPiece(i1, j1, p);
+			return false;
 	}
 
 	//This method requires your input

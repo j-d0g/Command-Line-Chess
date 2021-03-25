@@ -5,7 +5,11 @@ public class Rook extends Piece
 
   public Rook(PieceColour p)
   {
-    this.setSymbol("♖"); //White
-    //♜ Black
+    if (p == PieceColour.WHITE){
+      this.setSymbol("♖");
+    }
+    else if (p == PieceColour.BLACK){
+      this.setSymbol("♜");
+    }
   }
 }

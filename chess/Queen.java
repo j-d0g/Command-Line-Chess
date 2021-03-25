@@ -4,7 +4,11 @@ public class Queen extends Piece
 {
   public Queen(PieceColour p)
   {
-    this.setSymbol("♕");
-    //Black: ♛
+    if (p == PieceColour.WHITE){
+      this.setSymbol("♕");
+    }
+    else if (p == PieceColour.BLACK){
+      this.setSymbol("♛");
+    }
   }
 }
