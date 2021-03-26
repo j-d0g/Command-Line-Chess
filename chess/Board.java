@@ -55,7 +55,7 @@ public class Board{
 	//This method requires your input
 	public static void printBoard()
 	{
-		System.out.print("\n  a b c d e f g h \n");
+		System.out.print("\n  a b c d e f g h \n"); //a b c d e f g h
 		System.out.print("  -----------------\n");
 		for (int i=0; i<board[0].length; i++) //iterating rows
 		{
