@@ -8,25 +8,26 @@ public class Game
 	//Accepts Coordinate Inputs --Helper
 	private static String inputCoordinates(){
 		Scanner keyboardString = new Scanner(System.in);
+		CheckInput checker = new CheckInput();
 		String coordinates = keyboardString.next().toUpperCase();
-		if (coordinates.equals("END")){
-			gameEnd=true;
-			return coordinates;
-		}
-		while (!coordinates.matches("[1-8][a-hA-H]")){
+		// if (coordinates.equals("END")){
+		// 	gameEnd=true;
+		// 	return coordinates;
+		// }
+		while (!checker.checkCoordinateValidity(coordinates)){
 			System.out.println("Invalid entry. Entry must be in the range [1-8][a-h]");
 			coordinates = keyboardString.next().toUpperCase();
-			if (coordinates.equals("END")){
-				gameEnd=true;
-				return coordinates;
-			}
+			// if (coordinates.equals("END")){
+			// 	gameEnd=true;
+			// 	return coordinates;
+			// }
 		}
 		return coordinates;
 	}
 
 	//Turn Management // Validates Origin Input --Helper
 	private static boolean isValidOrigin(int i0In, int j0In, boolean blackToPlayIn){
-		if (Board.getPiece(i0In, j0In) == null){
+		if (!Board.hasPiece(i0In, j0In)){
 			 System.out.println("Square is empty");
 		}
 		else if (blackToPlayIn && Board.getPiece(i0In, j0In).getColour() != PieceColour.BLACK){
@@ -40,19 +41,6 @@ public class Game
 		}
 		return false;
 	}
-
-	// Validates Destination Input --Helper
-	// private static boolean isValidDestination(Piece pIn, Piece qIn){
-	// 	if (qIn == null) {
-	// 		return true;
-	// 	}
-	// 	else if (pIn.getColour() == qIn.getColour()){ //prevents friendly capture
-	// 		System.out.println("You can't capture your own piece!");
-	// 		return false;
-	// 	}
-	// 	// return isLegitMove(); implement when isLegitMove is programmed
-	// 	return true;
-	// 	}
 
 	//Prints Turn --Helper
 	private static boolean displayTurn(Piece pIn){
@@ -93,9 +81,9 @@ public class Game
 		do {
 			System.out.println("Enter destination");
 			destination = inputCoordinates();
-			if (origin == "END"){
-				gameEnd = true;
-			}
+			// if (origin == "END"){
+			// 	gameEnd = true;
+			// }
 			i1 = (int)destination.charAt(0) - intUnicode1;
 			j1 = (int)destination.charAt(1) - charUnicodeA;
 			q = Board.getPiece(i1, j1);

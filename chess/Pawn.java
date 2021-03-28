@@ -13,77 +13,74 @@ public class Pawn extends Piece{
 		}
 	}
 
+	//displayInvalidMove --Helper
+	public boolean displayInvalidMove(){
+		System.out.println("You can't move there.");
+		return false;
+	}
+
 	@Override
 	public boolean isLegitMove(int i0, int j0, int i1, int j1){
 		//intitialize pieces
 		Piece p = Board.getPiece(i0, j0);
 		Piece q = Board.getPiece(i1, j1);
 		int iDiff = i1-i0;
-		int jDiff = j1 - j0;
+		int jDiff = j1-j0;
 		switch(p.getColour()){
 			//Black to play:
 			case BLACK:
 				//Forward movement
-				while (j0 == j1 && Board.getPiece(i1, j1) == null && Math.abs(iDiff)<=2){ //while no horizontal movement, and destination is empty
-				//move forward one square
-					if (i1 == i0+1){ //if movement is one squre forward
+				//if there's no horizontal movement, the destination is empty
+				if (jDiff == 0 && !Board.hasPiece(i1, j1)){
+				//if move is 1 step forward
+					if (iDiff == 1){
 						return true;
 					}
-					//pawns on row 2
-					while (i0 != 1){
+					//If pawn is on row 2, and there is no piece in front, and the destination is 2 steps forward
+					else if (i0 == 1 && !Board.hasPiece(i0+1, j1) && iDiff == 2){
 						//move forward two squares
-						if (Board.getPiece(i0+1, j1) == null && Math.abs(iDiff)<=1){ //if nothing is one square in front
 							return true;
 						}
 					}
-				}
 				//Diagonal movement
-				//while destination is forward diagonal and not empty
-				while (((i1 == i0+1 && j1 == j0+1) || (i1 == i0+1 && j1 == j0-1)) && Board.getPiece(i1, j1) != null && (Math.abs(iDiff)<=2 && Math.abs(jDiff)<=2)){
-					//returns false if attempting to friendly capture
-					if (p.getColour() == q.getColour()){
-						System.out.println("You can't capture your own piece!");
-					}
+				else if (iDiff == 1 && (jDiff == 1 || (jDiff == -1)) && Board.hasPiece(i1, j1)){
 					//returns true if diagonal enemy capture is possible
-					else if (p.getColour() != q.getColour()){
+					if (p.getColour() != q.getColour()){
 						return true;
+					}
+					//returns false if attempting to friendly capture
+					else if (p.getColour() == q.getColour()){
+						System.out.println("You can't capture your own piece!");
 					}
 				}
 			break;
 
 			//White to play:
 			case WHITE:
-				//Forward movement
-				while (j0 == j1 && Board.getPiece(i1, j1) == null && Math.abs(iDiff)<=2){ //while no horizontal movement, and destination is empty
-				//move forward one square
-					if (i1 == i0-1){ //if movement is one square forward
-						return true;
-					}
-					//pawns on row 2
-					while (i0 != 6){
-						//move forward two squares
-						if (Board.getPiece(i0-1, j1) == null && Math.abs(iDiff)<=1){ //if nothing is one square in front
-							return true;
-						}
+			//Forward movement
+			if (jDiff == 0 && !Board.hasPiece(i1, j1)){
+				if (iDiff == -1){
+					return true;
+				}
+				//If pawn is on row 7, and there is no piece in front, and the destination is 1 step forward
+				else if (i0 == 6 && !Board.hasPiece(i0-1, j1) && iDiff== -2){
+					//move forward two squares
+					return true;
 					}
 				}
-				//Diagonal movement
-				//while destination is forward diagonal and not empty
-				while (((i1 == i0-1 && j1 == j0+1) || (i1 == i0-1 && j1 == j0-1)) && Board.getPiece(i1, j1) != null){
-					//returns false if attempting to friendly capture
-					if (p.getColour() == q.getColour()){
-						System.out.println("You can't capture your own piece!");
-						return false;
-					}
-					//returns true if diagonal enemy capture is possible
-					else if (p.getColour() != q.getColour()){
-						return true;
-					}
+			//Diagonal movement
+			else if (iDiff == -1 && (jDiff == 1 || (jDiff == -1)) && Board.hasPiece(i1, j1)){
+				if (p.getColour() != q.getColour()){
+					return true;
 				}
+				//returns false if attempting to friendly capture
+				else if (p.getColour() == q.getColour()){
+					System.out.println("You can't capture your own piece!");
+				}
+			}
 		break;
 		}
-		// if none of these are true, move is not valid for given while conditions
-		System.out.println("You can't move there.");
-		return false;
+		// if none of the above are true, move is not valid for given while conditions
+		return displayInvalidMove();
 	}
 }
