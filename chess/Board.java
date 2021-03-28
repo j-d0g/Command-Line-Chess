@@ -55,20 +55,20 @@ public class Board{
 	//This method requires your input
 	public static void printBoard()
 	{
-		System.out.print("\n  a b c d e f g h \n"); //a b c d e f g h
+		System.out.print("\n  a b c d e f g h \n");
 		System.out.print("  -----------------\n");
-		for (int i=0; i<board[0].length; i++) //iterating rows
+		for (int i=0; i<board[0].length; i++)
 		{
-			int row=i+1; //translates index to row number
-				for (int j=0; j<board[1].length; j++){ //iterating columns
-					if ((j==0) && Board.hasPiece(i,j)) //if we're on column a, and the board has a piece at the position i, j
-						System.out.print(row+" "+Board.getPiece(i,j).getSymbol()); //print the row number, followed by whitespace followed by the symbol of the piece at position i, j
-					else if ((j==0) && !Board.hasPiece(i,j)) //else if we're on column a and the board has no piece at coordinate i, j
-						System.out.print(row+"  " ); //print row number, followed by whitespace
-					else if (Board.hasPiece(i,j)) //else if the board has a piece at position i, j and we're not on column a
-						System.out.print("|"+Board.getPiece(i,j).getSymbol()); //print | followed by the symbol of the piece at position i, j
-					else //if none of the conditions above satisfy, meaning we're not on column a and we're not in a and there's no piece at i, j
-						System.out.print("| "); //print "| "
+			int row=i+1;
+				for (int j=0; j<board[1].length; j++){
+					if ((j==0) && Board.hasPiece(i,j))
+						System.out.print(row+" "+Board.getPiece(i,j).getSymbol());
+					else if ((j==0) && !Board.hasPiece(i,j))
+						System.out.print(row+"  " );
+					else if (Board.hasPiece(i,j))
+						System.out.print("|"+Board.getPiece(i,j).getSymbol());
+					else
+						System.out.print("| ");
 				}
 				System.out.print("  "+row+"\n");
 		}
@@ -77,19 +77,22 @@ public class Board{
 	}
 
 	//This method requires your input
-	public static boolean movePiece(int i0, int j0, int i1, int j1, Piece p)
-	{
-		//Purely logic for now, as I need to figure out what enum does
-		// if (p.getColour() == PieceColour.WHITE && getPiece(i1, j1).getSymbol() == "♚"){
-		// 	return true;
-		// }
-		// else if (p.getColour() == PieceColour.BLACK && getPiece(i1, j1).getSymbol() == "♔"){
-		// 	return true;
-		// }
+	public static boolean movePiece(int i0, int j0, int i1, int j1, Piece p){
 
-			board[i0][j0].removePiece();
-			board[i1][j1].removePiece();
-			Board.setPiece(i1, j1, p);
+		if (Board.hasPiece(i1, j1)){
+			if (Board.getPiece(i1, j1).getSymbol() == "♔" && p.getColour() == PieceColour.BLACK){
+				System.out.println("Checkmate! Black wins.");
+				return true;
+			}
+			else if (Board.getPiece(i1, j1).getSymbol() == "♚" && p.getColour() == PieceColour.WHITE){
+				System.out.println("Checkmate! White wins.");
+				return true;
+			}
+		}
+		board[i0][j0].removePiece();
+		board[i1][j1].removePiece();
+		Board.setPiece(i1, j1, p);
+
 		return false;
 	}
 
