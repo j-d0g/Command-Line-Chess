@@ -33,65 +33,38 @@ public class Queen extends Piece{
     int jDiff = j1 - j0; //horizontal displacement
     boolean testSquare = false;
 
-    // for (int i=1; i<Math.abs(isBigger(iDiff, jDiff); i++){
-    //   if (iDiff == 0 && jDiff > 0){
-    //
-    //   }
-    // }
-    // <---> horizontal movement
-    if (iDiff == 0){
-      //inspects each square between origin and destination
-      for (int i=1; i<Math.abs(jDiff); i++){
-        // <---
-        if (jDiff < 0){
-          r = Board.getPiece(i0, j0-i);
+    //Verticle movement
+    if (iDiff == 0 || jDiff == 0){
+      for (int i = 1; i < Math.abs(isBigger(iDiff, jDiff)); i++){
+        // 1 --> 8
+        if (iDiff > 0){
+          testSquare = Board.hasPiece(i0+i, j0);
         }
-        // --->
-        else if (jDiff > 0){
-          r = Board.getPiece(i0, j0+i);
+        // 1 <-- 8
+        else if (iDiff < 0) {
+          testSquare = Board.hasPiece(i0-i, j0);
         }
-        //if no movement
-        else{
+        // A --> H
+        else if (jDiff > 0) {
+          testSquare = Board.hasPiece(i0, j0+i);
+        }
+        // A <-- H
+        else if (jDiff < 0) {
+          testSquare = Board.hasPiece(i0, j0-i);
+        }
+        //if testSquare contains piece
+        if (testSquare){
           return displayInvalidMove();
         }
-          if (r != null){ //if current square reviewed contains a piece)
-            return displayInvalidMove();
-          }
-        }
-      if (q != null && p.getColour() == q.getColour()){ //prevents friendly capture
-          System.out.println("You can't capture your own piece!");
-          return false;
+      }
+      if (Board.hasPiece(i1, j1) && p.getColour() == q.getColour()){
+        System.out.println("You can't capture your own piece!");
+        return false;
       }
     }
-    //verticle movement
-    else if (jDiff == 0){
-      //inspects each square between origin and destination
-      for (int i = 1; i < Math.abs(iDiff); i++){
-        //move up the board
-        if (iDiff < 0){
-          r = Board.getPiece(i0-i, j0);
-        }
-        //move down the board
-        else if (iDiff > 0){
-          r = Board.getPiece(i0+i, j0);
-        }
-        //if no movement
-        else{
-          return displayInvalidMove();
-        }
-          if (r != null){ //if current square reviewed contains a piece)
-            return displayInvalidMove();
-          }
-        }
-      if (q != null && p.getColour() == q.getColour()){ //prevents friendly capture
-          System.out.println("You can't capture your own piece!");
-          return false;
-      }
-    }
-
     //Diagonal Movement
-    if (Math.abs(iDiff) == Math.abs(jDiff)){
-      for (int i = 1; i < Math.abs(iDiff); i++){ //case 6d
+    else if (Math.abs(iDiff) == Math.abs(jDiff)){
+      for (int i = 1; i < Math.abs(iDiff); i++){
         //if direction is 8H -> 1A
         if (iDiff < 0 && jDiff < 0){
           testSquare = Board.hasPiece(i0-i, j0-i);
@@ -117,7 +90,7 @@ public class Queen extends Piece{
         return false;
       }
     }
-    if (Math.abs(iDiff) != Math.abs(jDiff)){
+    if ((Math.abs(iDiff) != Math.abs(jDiff)) && (iDiff != 0 && jDiff != 0)){
       return displayInvalidMove();
     }
     return true;

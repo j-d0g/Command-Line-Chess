@@ -1,10 +1,8 @@
 package chess;
 
-public class Rook extends Piece
-{
+public class Rook extends Piece{
 
-  public Rook(PieceColour p)
-  {
+  public Rook(PieceColour p){
     if (p == PieceColour.WHITE){
       this.setSymbol("♖");
       colour = PieceColour.WHITE;
@@ -21,6 +19,16 @@ public class Rook extends Piece
     return false;
   }
 
+  //displays largest of two inputs --Helper
+  public int isBigger(int iDiffIn, int jDiffIn){
+    int iSize = Math.abs(iDiffIn);
+    int jSize = Math.abs(jDiffIn);
+    if (iSize > jSize){
+      return iSize;
+    }
+    return jSize;
+  }
+
   @Override
   public boolean isLegitMove(int i0, int j0, int i1, int j1){
     Piece p = Board.getPiece(i0, j0); //piece at Origin
@@ -28,55 +36,34 @@ public class Rook extends Piece
     Piece r;
     int iDiff = i1 - i0; //verticle displacement
     int jDiff = j1 - j0; //horizontal displacement
+    boolean testSquare = false;
 
-    // <---> horizontal movement
-    if (iDiff == 0){
-      //inspects each square between origin and destination
-      for (int i = 1; i < Math.abs(jDiff); i++){
-        // <---
-        if (jDiff < 0){
-          r = Board.getPiece(i0, j0-i);
+    if (iDiff == 0 || jDiff == 0){
+      for (int i = 1; i < Math.abs(isBigger(iDiff, jDiff)); i++){
+        // 1 --> 8
+        if (iDiff > 0){
+          testSquare = Board.hasPiece(i0+i, j0);
         }
-        // --->
-        else if (jDiff > 0){
-          r = Board.getPiece(i0, j0+i);
+        // 1 <-- 8
+        else if (iDiff < 0) {
+          testSquare = Board.hasPiece(i0-i, j0);
         }
-        //if no movement
-        else{
+        // A --> H
+        else if (jDiff > 0) {
+          testSquare = Board.hasPiece(i0, j0+i);
+        }
+        // A <-- H
+        else if (jDiff < 0) {
+          testSquare = Board.hasPiece(i0, j0-i);
+        }
+        //if testSquare contains piece
+        if (testSquare){
           return displayInvalidMove();
         }
-          if (r != null){ //if current square reviewed contains a piece)
-            return displayInvalidMove();
-          }
-        }
-      if (q != null && p.getColour() == q.getColour()){ //prevents friendly capture
-          System.out.println("You can't capture your own piece!");
-          return false;
       }
-    }
-    //verticle movement
-    else if (jDiff == 0){
-      //inspects each square between origin and destination
-      for (int i = 1; i < Math.abs(iDiff); i++){
-        //move up the board
-        if (iDiff < 0){
-          r = Board.getPiece(i0-i, j0);
-        }
-        //move down the board
-        else if (iDiff > 0){
-          r = Board.getPiece(i0+i, j0);
-        }
-        //if no movement
-        else{
-          return displayInvalidMove();
-        }
-          if (r != null){ //if current square reviewed contains a piece)
-            return displayInvalidMove();
-          }
-        }
-      if (q != null && p.getColour() == q.getColour()){ //prevents friendly capture
-          System.out.println("You can't capture your own piece!");
-          return false;
+      if (Board.hasPiece(i1, j1) && p.getColour() == q.getColour()){
+        System.out.println("You can't capture your own piece!");
+        return false;
       }
     }
     else if (iDiff != 0 && jDiff != 0){
