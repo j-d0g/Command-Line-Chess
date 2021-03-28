@@ -14,7 +14,7 @@ public class Bishop extends Piece {
   }
 
   //displayInvalidMove --Helper
-  public boolean displayInvalidMove(){
+  private boolean displayInvalidMove(){
     System.out.println("You can't move there.");
     return false;
   }
@@ -32,8 +32,6 @@ public class Bishop extends Piece {
         //if direction is 8H -> 1A
         if (iDiff < 0 && jDiff < 0){
           testSquare = Board.hasPiece(i0-i, j0-i);
-          System.out.print("iDiff: " + iDiff + "jDiff: " + jDiff + "iDiff mod: " + Math.abs(iDiff) + " i, j " + Math.abs(jDiff));
-          System.out.print("i: " + i0+i + "j: " + j0+i);
         }
         //if direction is 8H <- 1A
         else if (iDiff > 0 && jDiff > 0){

@@ -13,16 +13,18 @@ public class Queen extends Piece{
   }
 
   //displayInvalidMove --Helper
-  public boolean displayInvalidMove(){
+  private boolean displayInvalidMove(){
     System.out.println("You can't move there.");
     return false;
   }
 
   public int isBigger(int iDiffIn, int jDiffIn){
-    if (iDiffIn > jDiffIn){
-      return iDiffIn;
+    int iSize = Math.abs(iDiffIn);
+    int jSize = Math.abs(jDiffIn);
+    if (iSize > jSize){
+      return iSize;
     }
-    return jDiffIn;
+    return jSize;
   }
 
   public boolean isLegitMove(int i0, int j0, int i1, int j1){

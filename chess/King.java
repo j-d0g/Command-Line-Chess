@@ -13,20 +13,27 @@ public class King extends Piece {
 		}
 	}
 
+	//displayInvalidMove --Helper
+	private boolean displayInvalidMove(){
+		System.out.println("You can't move there.");
+		return false;
+	}
+
 	@Override
 	public boolean isLegitMove(int i0, int j0, int i1, int j1){
-		if (Math.abs(iDiff) == 1 && Math.abs(jDiff) == 1){
-			//returns false if attempting to friendly capture
-			if (p.getColour() == q.getColour()){
-				System.out.println("You can't capture your own piece!");
-				return false;
-			}
-			//returns true if diagonal enemy capture is possible
-			else if (p.getColour() != q.getColour()){
-				return true;
-			}
+		int iDiff = i1 - i0;
+		int jDiff = j1 - j0;
+		Piece p = Board.getPiece(i0, j0);
+		Piece q = Board.getPiece(i1, j1);
+		//if the king never moves more than 1 square away from origin
+		if (Math.abs(iDiff) > 1 || Math.abs(jDiff) > 1){
+			return displayInvalidMove();
+		}
+		//returns false if attempting to friendly capture
+		else if (Board.hasPiece(i1, j1) && p.getColour() == q.getColour()){
+			System.out.println("You can't capture your own piece!");
+			return false;
 		}
 		return true;
 	}
-
 }

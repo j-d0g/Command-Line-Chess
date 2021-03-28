@@ -14,14 +14,14 @@ public class Pawn extends Piece{
 	}
 
 	//displayInvalidMove --Helper
-	public boolean displayInvalidMove(){
+	private boolean displayInvalidMove(){
 		System.out.println("You can't move there.");
 		return false;
 	}
 
 	@Override
 	public boolean isLegitMove(int i0, int j0, int i1, int j1){
-		//intitialize pieces
+		//intitialize piece
 		Piece p = Board.getPiece(i0, j0);
 		Piece q = Board.getPiece(i1, j1);
 		int iDiff = i1-i0;
